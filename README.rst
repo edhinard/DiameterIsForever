@@ -1,0 +1,32 @@
+# DiameterIsForever
+
+A python module for building/parsing Diameter messages.
+
+::
+
+ $ python3
+ Python 3.5.2 (default, Nov 12 2018, 13:43:14) 
+ [GCC 5.4.0 20160609] on linux
+ Type "help", "copyright", "credits" or "license" for more information.
+ >>> import dif
+ >>> cer = dif.CER(
+ ...     dif.Origin_Host('ims.toto.fr'),
+ ...     dif.Origin_Realm('toto.fr'),
+ ...     dif.Host_IP_Address('1.2.3.4'),
+ ...     dif.Host_IP_Address('1.2.3.5'),
+ ...     dif.Auth_Application_Id(0x01000014),
+ ...     dif.Vendor_Id(123),
+ ...     dif.Product_Name('<\U0001F641>'),
+ ...     application=dif.Application.Rx
+ ... )
+ >>> bytes(cer)
+ b'\x01\x00\x00\x80\x80\x00\x01\x01\x01\x00\x00\x14\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x08\x00\x00\x00\x13ims.toto.fr\x00\x00\x00\x01(\x00\x00\x00\x0ftoto.fr\x00\x00\x00\x01\x01\x00\x00\x00\x0e\x00\x01\x01\x02\x03\x04\x00\x00\x00\x00\x01\x01\x00\x00\x00\x0e\x00\x01\x01\x02\x03\x05\x00\x00\x00\x00\x01\x02\x00\x00\x00\x0c\x01\x00\x00\x14\x00\x00\x01\n\x00\x00\x00\x0c\x00\x00\x00{\x00\x00\x01\r\x00\x00\x00\x0e<\xf0\x9f\x99\x81>\x00\x00'
+ >>> dif.Diameter.from_bytes(b'\x01\x00\x00h\x00\x00\x01\x01\x01\x00\x00\x14\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x08\x00\x00\x00\x14pcrf.titi.fr\x00\x00\x01(\x00\x00\x00\x0ftiti.fr\x00\x00\x00\x01\x0c\x00\x00\x00\x0c\x00\x00\x01\xc8\x00\x00\x01\x19\x00\x00\x00#Unknown or unexpected peer.\x00')
+ CEA(
+   Origin_Host('pcrf.titi.fr')
+   Origin_Realm('titi.fr')
+   Result_Code(456)
+   Error_Message('Unknown or unexpected peer.')
+   application=Application.Rx
+ )
+ >>> 
